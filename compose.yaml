@@ -1,0 +1,40 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    env_file:
+      - db.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app-user -d app"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable-alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+
+  app:
+    container_name: app
+    command: gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --workers 4 --bind 0.0.0.0:80
+    build: .
+    volumes:
+      - .:/project
+      - migrations_versions_data:/project/migrations/versions
+      - certificates_data:/project/certificates
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data: {}
+  certificates_data: {}
+  migrations_versions_data: {}

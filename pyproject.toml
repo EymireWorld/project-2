@@ -1,0 +1,19 @@
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi-slim = "^0.111.1"
+uvicorn = {extras = ["standard"], version = "^0.30.3"}
+gunicorn = "^22.0.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.31"}
+asyncpg = "^0.29.0"
+alembic = "^1.13.2"
+pydantic-settings = "^2.3.4"
+email-validator = "^2.2.0"
+bcrypt = "^4.2.0"
+pyjwt = {extras = ["crypto"], version = "^2.8.0"}
+
+[tool.isort]
+multi_line_output = 3
+lines_after_imports = 2

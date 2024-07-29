@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+certificates/*
+pyproject.toml
+poetry.lock
+poetry.toml
+README.md
